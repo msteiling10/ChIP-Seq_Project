@@ -46,7 +46,7 @@ The workflow steps must be completed in this order as the output of one step is 
 9. Use pybedtools to overlay the BED files containing the filtered transcription factor binding sites onto the BED files containing the ChromHMM chromatin state locations to see where they intersect  
 10. View the generated BED files using UCSC Genome Browser
 
-Once our pipeline is functional, and our output matches that of the paper, we will use the results to identify candidate regulators for 1-Cys Prx. However, the ChIP-seq data used in the paper is from blood stage parasites, when 1-Cys Prx is not highly upregulated, so we will likely need to use other ChIP-seq data for *Plasmodium* from NCBI or PlasmoDB.
+Once our pipeline is functional, and our output matches that of the paper, we will use the results to identify candidate regulators for 1-Cys Prx. However, the ChIP-seq data used in the paper is from blood stage parasites, when 1-Cys Prx is not highly upregulated, so we will likely need to use other ChIP-seq data for *Plasmodium* from NCBI or PlasmoDB in order to accomplish this goal.
 
 # Milestones
 
