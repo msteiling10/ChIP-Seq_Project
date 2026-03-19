@@ -143,16 +143,30 @@ rule macs2:
         macs2 callpeak -t {input.bam} -f BAM -g 2e7 -q 0.001 --nomodel --shift 0 --extsize 200 -n {wildcards.sample} --outdir macs2_peaks
         
         """
-
-#map the location of chromatin regulatory states across the genome using ChromHMM 
-rule ChromHMM:
+#bam files must be binarized prior to chromatin state modeling
+rule ChromHMM_binarize: #not sure if I need to specify memory with -mx4000M but google said I need it
+#in the paper they specified they used a bin size of 200bp but that is the default so I did not include that flag
     input:
-
+    chromosomelengthfile="",
+    inputbamdir="",
+    cellmarkfiletable="",
     output:
-
+    "outputbinarydir"
     shell:
         """
+        java -mx4000M -jar ChromHMM.jar BinarizeBam {input.chromosomelengthfile} {input.inputbamdir} {input.cellmarkfiletable} {output.outputbinardir}
+        """
 
+#map the location of chromatin regulatory states across the genome using ChromHMM 
+rule ChromHMM_model:
+    input:
+    inputdir=""
+    assembly=""
+    output:
+    outputdir=""
+    shell:
+        """
+        java -mx4000M -jar ChromHMM.jar LearnModel {input.inputdir} {output.outputdir} 11 {input.assembly}
         """
 
 #overlay the BED files containing the filtered transcription factor binding sites onto the BED files containing the ChromHMM chromatin state locations to see where they intersect with pybedtools
