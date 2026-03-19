@@ -119,6 +119,18 @@ rule remove_duplicates:
         java -jar picard.jar MarkDuplicates I={input} O={output} REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=STRICT M=mapped_reads/{wildcards.sample}.dup_metrics.txt
         """
 
+#remove duplicates using Picard’s MarkDuplicates
+rule remove_duplicates:
+    input:
+       "mapped_reads/{sample}.sorted.bam"
+    
+    output:
+        "mapped_reads/{sample}.noduplicates.bam"
+    shell:
+        """
+        java -jar picard.jar MarkDuplicates I={input} O={output} REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=STRICT M=mapped_reads/{wildcards.sample}.dup_metrics.txt
+        """
+
 #call peaks using MacS2. Need to input a control I think but idk what it is. idk if the command is 100% correct
 rule macs2:
     input:
@@ -129,6 +141,7 @@ rule macs2:
         """
         mkdir -p macs2_peaks
         macs2 callpeak -t {input.bam} -f BAM -g 2e7 -q 0.001 --nomodel --shift 0 --extsize 200 -n {wildcards.sample} --outdir macs2_peaks
+        
         """
 
 #map the location of chromatin regulatory states across the genome using ChromHMM 
@@ -153,3 +166,5 @@ rule pybedtools:
 
         """
 
+     
+        """
