@@ -118,6 +118,7 @@ rule remove_duplicates:
         """
         java -jar picard.jar MarkDuplicates I={input} O={output} REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=STRICT M=mapped_reads/{wildcards.sample}.dup_metrics.txt
         """
+
 #call peaks using MacS2. Need to input a control I think but idk what it is. idk if the command is 100% correct
 rule macs2:
     input:
@@ -128,30 +129,38 @@ rule macs2:
         """
         mkdir -p macs2_peaks
         macs2 callpeak -t {input.bam} -f BAM -g 2e7 -q 0.001 --nomodel --shift 0 --extsize 200 -n {wildcards.sample} --outdir macs2_peaks
-        
         """
+
 #bam files must be binarized prior to chromatin state modeling
-#sorry I'm a bit confused by these 2 ChromHMM steps I will come back to them soon
+#paper specifies bin size 200 which is the default size
 rule ChromHMM_binarize: #not sure if I need to specify memory with -mx4000M but google said I need it
-#in the paper they specified they used a bin size of 200bp but that is the default so I did not include that flag
     input:
-    chromosomelengthfile="",
-    inputbamdir="",
-    cellmarkfiletable="",
+        chromosomelengthfile="chromsizes.genome",
+        inputbamdir="",
+        cellmarkfiletable=""
     output:
-    "outputbinarydir"
+        outputbinarydir=""
     shell:
         """
         java -mx4000M -jar ChromHMM.jar BinarizeBam {input.chromosomelengthfile} {input.inputbamdir} {input.cellmarkfiletable} {output.outputbinardir}
         """
+#create the chromosome length file to be used in BinarizeBam
+#not 100% sure I did this correct
+input:
+    genome="ref/P_falciparum3D7.fa"
+output:
+    "chromsizes.genome"
+rule chromlength:
+    shell:
+        samtools faidx {input.genome} | cut -f1,2 P_falciparum3D7.fa.fai > chromsizes.genome
 
 #map the location of chromatin regulatory states across the genome using ChromHMM 
 rule ChromHMM_model:
     input:
-    inputdir=""
-    assembly=""
+        inputdir="",
+        assembly=""
     output:
-    outputdir=""
+        outputdir=""
     shell:
         """
         java -mx4000M -jar ChromHMM.jar LearnModel {input.inputdir} {output.outputdir} 11 {input.assembly}
