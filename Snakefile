@@ -1,51 +1,41 @@
 #main snakefile
+import os
 
-#samples (idk 100% what samples we have and if they are single or paired end we would have to restructure this if we have both so then trimmomatic will work for each kind of sample)
+#samples (idk if the samples are single or paired end we would have to restructure this if we have both so then trimmomatic will work for each kind of sample)
 samples = [
-"H3K9ac_10h",
-"H3K9ac_30h",
-"H3K9ac_40h",
-"H3K4me1_10h",
-"H3K4me1_30h",
-"H3K4me1_40h",
-"H3K4me3_10h",
-"H3K4me3_30h",
-"H3K4me3_40h",
-"H2AZ_10h",
-"H2AZ_30h",
-"H2AZ_40h",
-"H3K27ac_10h",
-"H3K27ac_30h",
-"H3K27ac_40h",
-"H3K18ac_10h",
-"H3K18ac_30h",
-"H3K18ac_40h",
-"H3K9me3_20h",
-"H3K9me3_40h",
-"HP1_10h",
-"HP1_30h",
-"HP1_40h",
-"ATAC_10h",
-"ATAC_30h",
-"ATAC_40h"    
+    d for d in os.listdir("initial_data")
+    if os.path.isdir(os.path.join("initial_data", d))
 ]
 
 rule all:
     input:
-        expand("mapped_reads/{sample}.phred30.bam", sample=samples)
+        expand("macs2_peaks/{sample}_peaks.narrowPeak", sample=samples)
+
+#get fastq files from the sra accessions (need to fix so it does both single and paired end files)
+rule fasterq_dump:
+    input:
+        "initial_data/{sample}/{sample}.sra"
+    output:
+        "data/fastq/{sample}.fastq"
+    shell:
+        """
+        mkdir -p data/fastq
+        fasterq-dump {input} -O data/fastq
+        """
 
 #download the genome and annotations
 rule download_reference_genome:
     output:
         genome="ref/P_falciparum3D7.fa",
-        cds="ref/P_falciparum3D7_cds.fa"
+        gff="ref/P_falciparum3D7_annotations.gff3"
     shell:
         """
         mkdir -p ref
         datasets download genome accession GCF_000002765.6 --include gff3,genome --filename ref/ncbi_dataset.zip
         unzip -o ref/ncbi_dataset.zip -d ref/ncbi_dataset
-        cp ref/ncbi_dataset/data/GCF_000002765.6/cds_from_genomic.fna {output.cds}
-        cp ref/ncbi_dataset/data/GCF_000002765.6/GCF_000002765.6.fna {output.genome}
+        cp ref/ncbi_dataset/ncbi_dataset/data/*/*genomic.fna {output.genome}
+        cp ref/ncbi_dataset/ncbi_dataset/data/*/*genomic.gff {output.gff}
+        rm -rf ref/ncbi_dataset ref/ncbi_dataset.zip
         """
 
 #filter reads by quality using Trimmomatic (need to know if data is paired or single end. SE or PE? if we have both types of samples we need to make another rule that does PE and inputs r1 and r2)
@@ -63,7 +53,7 @@ rule trimmomatic:
 #index reference genome for BWA mapping
 rule index_ref:
     input:
-        genome = "ref/P_falciparum3D7.fa"
+        genome="ref/P_falciparum3D7.fa"
     output:
         touch("ref/index.done")
     shell:
@@ -75,7 +65,7 @@ rule index_ref:
 #map reads to reference genome using BWA-MEM
 rule BWA_mapping: #use -M in command to make it compatible with Picard, and pipe command to samtools
     input:
-        genome = "ref/P_falciparum3D7.fa",
+        genome="ref/P_falciparum3D7.fa",
         fastq="trimmed/{sample}.fastq",
         donecheck="ref/index.done"
     output:
@@ -97,47 +87,66 @@ rule filter_by_phred_score:
         samtools view -b -q 30 {input} > {output}
         """
 
-#remove duplicates using Picard’s MarkDuplicates
-rule remove_duplicates:
+#sort bam files by coordinate order using samtools. Picards' MarkDuplicates requires sorted bam files as input
+rule sort_bam:
     input:
         "mapped_reads/{sample}.phred30.bam"
     output:
-
+        "mapped_reads/{sample}.sorted.bam"
     shell:
-    """
+        """
+        samtools sort {input} -o {output}
+        """
 
-    """
+#remove duplicates using Picard’s MarkDuplicates
+rule remove_duplicates:
+    input:
+       "mapped_reads/{sample}.sorted.bam"
+    output:
+        "mapped_reads/{sample}.noduplicates.bam"
+    shell:
+        """
+        java -jar picard.jar MarkDuplicates I={input} O={output} REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=STRICT M=mapped_reads/{wildcards.sample}.dup_metrics.txt
+        """
 
-#call peaks using MacS2
-rule MacS2:
+#call peaks using MacS2. Need to input a control I think but idk what it is. idk if the command is 100% correct
+rule macs2:
+    input:
+        bam="mapped_reads/{sample}.noduplicates.bam"
+    output:
+        "macs2_peaks/{sample}_peaks.narrowPeak"
+    shell:
+        """
+        mkdir -p macs2_peaks
+        macs2 callpeak -t {input.bam} -f BAM -g 2e7 -q 0.001 --nomodel --shift 0 --extsize 200 -n {wildcards.sample} --outdir macs2_peaks
+        """
+
+#filter out overlapping peaks using bedtools intersect to avoid overcounting
+rule bedtools_intersect:
     input:
 
     output:
 
     shell:
-    """
 
-    """
-
-#map the location of chromatin regulatory states across the genome using ChromHMM 
-rule ChromHMM:
+#overlay the BED files containing our BED output onto the BED files containing the paper-provided BED output to see where they intersect with pybedtools jaccard
+rule pybedtools_jaccard:
     input:
 
     output:
 
     shell:
-    """
+        """
 
-    """
+        """
 
-#overlay the BED files containing the filtered transcription factor binding sites onto the BED files containing the ChromHMM chromatin state locations to see where they intersect with pybedtools
-rule pybedtools:
-    input:
-
-    output:
-
+#cleanup rule to remove files and run snakemake again
+rule cleanup:
     shell:
-    """
-
-    """
-
+        """
+        rm -rf ncbi_dataset ncbi_dataset.zip
+        rm -rf ref
+        rm -rf data/fastq
+        rm -rf trimmed mapped_reads macs2_peaks
+        rm -rf .snakemake
+        """
