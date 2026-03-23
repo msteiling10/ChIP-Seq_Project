@@ -138,7 +138,9 @@ rule pybedtools_jaccard:
 
     shell:
         """
-        bedtools jaccard -a <> -b <>
+        bedtools jaccard -a <{input.provided_BED[0]}> -b <{input.our_BED[0]}>
+        bedtools jaccard -a <{input.provided_BED[1]}> -b <{input.our_BED[1]}>
+        bedtools jaccard -a <{input.provided_BED[2]}> -b <{input.our_BED[2]}>
         """
 
 #cleanup rule to remove files and run snakemake again
