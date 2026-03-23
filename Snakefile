@@ -135,12 +135,12 @@ rule pybedtools_jaccard:
         provided_BED="provided_BED/{sample}.bed"
         our_BED="macs2_peaks/{sample}_peaks.narrowPeak"
     output:
-
+        "results.jaccard"
     shell:
         """
-        bedtools jaccard -a <{input.provided_BED[0]}> -b <{input.our_BED[0]}>
-        bedtools jaccard -a <{input.provided_BED[1]}> -b <{input.our_BED[1]}>
-        bedtools jaccard -a <{input.provided_BED[2]}> -b <{input.our_BED[2]}>
+        bedtools jaccard -a <{input.provided_BED[0]}> -b <{input.our_BED[0]}> > results.jaccard
+        bedtools jaccard -a <{input.provided_BED[1]}> -b <{input.our_BED[1]}> >> results.jaccard
+        bedtools jaccard -a <{input.provided_BED[2]}> -b <{input.our_BED[2]}> >> results.jaccard
         """
 
 #cleanup rule to remove files and run snakemake again
