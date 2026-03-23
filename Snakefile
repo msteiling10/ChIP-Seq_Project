@@ -121,6 +121,14 @@ rule macs2:
         macs2 callpeak -t {input.bam} -f BAM -g 2e7 -q 0.001 --nomodel --shift 0 --extsize 200 -n {wildcards.sample} --outdir macs2_peaks
         """
 
+#filter out overlapping peaks to avoid overcounting
+rule bedtools_intersect:
+    input:
+
+    output:
+
+    shell:
+
 #overlay the BED files containing our BED output onto the BED files containing the paper-provided BED output to see where they intersect with pybedtools jaccard
 rule pybedtools_jaccard:
     input:
