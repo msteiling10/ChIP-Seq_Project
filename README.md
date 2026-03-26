@@ -19,7 +19,7 @@ python ./SampleDownloadPFal.py
 ```
 To run the Snakefile in background with a log file outputted
 ```bash
-nohup snakemake -s snakefile -c 4  > snakemake.log 2>&1 &
+nohup snakemake -s test_snakefile -c 4 --configfile CompProjectconfig.yaml > snakemake.log 2>&1 &
 ```
 
 To run the Snakefile cleanup
