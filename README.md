@@ -24,7 +24,7 @@ nohup snakemake -s snakefile -c 4 --configfile CompProjectconfig.yaml > snakemak
 
 To run the Snakefile cleanup
 ```bash
-snakemake cleanup --cores 1 --configfile CompProjectconfig.yaml
+snakemake cleanup -c 1 --configfile CompProjectconfig.yaml
 ```
 
 To See What Rules your Snakefile Can See:
@@ -68,8 +68,9 @@ conda init bash
 
 Create and activate conda environment:
 ```bash
-conda create -n chipseq -c bioconda -c conda-forge snakemake macs2 -y
-conda activate chipseq
+~/miniconda/bin/conda create -n chipseq python=3.10 -y
+source ~/miniconda/bin/activate chipseq
+conda install -c conda-forge -c bioconda snakemake macs2 -y
 ```
 
 Install Macs2:
