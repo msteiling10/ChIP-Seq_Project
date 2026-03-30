@@ -42,6 +42,14 @@ Please See https://github.com/usadellab/Trimmomatic/blob/main/README.md For Furt
 trimmomatic was downloaded using this zip file:
 http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
 
+Picard MarkDupilcates Notes:
+Your environment needs Java to run Picard MarkDuplicates, an example that downloads Picard MarkDuplicates is as follows:
+
+java -jar picard.jar 
+
+Picard MarkDupilcates was downloaded using this file:
+https://github.com/broadinstitute/picard/releases/download/3.4.0/picard.jar
+
 
 
 
