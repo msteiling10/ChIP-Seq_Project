@@ -1,0 +1,14 @@
+#list the SRAs to be used below
+#formatting -'SRA-NUMBER' on each line
+
+#example
+# -'A sample'
+# -'Another Sample'
+
+- 'SRR057262'
+- 'SRR057268'
+- 'SRR6055333'
+
+
+
+

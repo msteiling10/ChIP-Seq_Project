@@ -1,8 +1,14 @@
 Hello thank you for using our repo!
 This snakemake pipeline is intended to analyze ChIP-seq and ATAC-seq data for the species Plasmodium falciparum.
 
+To Begin:
+You need to add your samples to the "YourSamplesHere.yaml"
+First: open the YourSamplesHere.yaml
+Next: add the SRAs you plan to use, there is a formatting example inside the YourSamplesHere.yaml
+This yaml connects to the sample download code to begin downloading the data you would like to use. 
+You should not need to make any edits to the SampleDownload.py code itself 
 
-SampleDownloadPFal.py:
+SampleDownload.py:
 This Script is made to download the initial data to run through the pipeline. 
 It will create a directory to store samples called 
 "initial_data"
@@ -15,7 +21,7 @@ Otherwise list full path
 
 Example to run:
 ```bash
-python ./SampleDownloadPFal.py
+python ./SampleDownload.py
 ```
 To run the Snakefile in background with a log file outputted
 ```bash
