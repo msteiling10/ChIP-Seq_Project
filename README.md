@@ -66,13 +66,6 @@ source ~/.bashrc
 conda init bash
 ```
 
-Create and activate conda environment:
-```bash
-~/miniconda/bin/conda create -n chipseq python=3.10 -y
-source ~/miniconda/bin/activate chipseq
-conda install -c conda-forge -c bioconda snakemake macs2 -y
-```
-
 Install Macs2:
 ```bash
 conda install bioconda::macs2
