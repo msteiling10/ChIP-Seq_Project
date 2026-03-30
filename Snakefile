@@ -9,7 +9,7 @@ configfile: 'CompProjectconfig.yaml' #snakemake will pull info from this file
 single_samples = config["Single End"] #this algins with the formatting of the YAML for SINGLE END READS
 paired_samples = config["Paired End"] #this aligns with teh formatting of the YAML for PARIED END READS
 samples = config["SRAs"] #all of the samples are going to come in the form of an SRA
-reference_genome = config["Refrence Genome"]
+reference_genome = config["Reference Genome"]
 
 rule all:
     input:   
