@@ -75,6 +75,11 @@ Install Macs3:
 conda install -c bioconda macs3
 ```
 
+Install bedToBigBed:
+```bash
+wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedToBigBed
+```
+
 Create and activate conda environment:
 ```bash
 conda create -n macs3_env python=3.9
