@@ -6,22 +6,24 @@ You need to add your samples to the "YourSamplesHere.yaml"
 First: open the YourSamplesHere.yaml
 Next: add the SRAs you plan to use, there is a formatting example inside the YourSamplesHere.yaml
 This yaml connects to the sample download code to begin downloading the data you would like to use. 
-You should not need to make any edits to the SampleDownload.py code itself 
+You should not need to make any edits to the SampleDownloadV2.py code itself, expect for adding the reference genome if
+you plan to work with something other than Plasmodium falciparum
 
 SampleDownload.py:
-This Script is made to download the initial data to run through the pipeline. 
+This Script is made to download the initial data to run through the pipeline and create the config file needed for the pipeline.
 It will create a directory to store samples called 
 "initial_data"
 The function will use the operating system to check for the directory. 
 Subproccess allows for the running of commandline tool from within Python. 
 To adapt the Sample Download code to other samples, the list at line 19 can be changed to other SRR/SRA numbers
-Please check that SampleDownloadPFal.py is in your current working directory before using ./
+Please check that SampleDownloadV2.py is in your current working directory before using ./
 Otherwise list full path
+Additionally, if you need to change the reference genome you wish to use, this is under the output dictionary 
 
 
 Example to run:
 ```bash
-python ./SampleDownload.py
+python ./SampleDownloadV2.py
 ```
 To run the Snakefile in background with a log file outputted
 ```bash
