@@ -20,6 +20,19 @@ Please check that SampleDownloadV2.py is in your current working directory befor
 Otherwise list full path
 Additionally, if you need to change the reference genome you wish to use, this is under the output dictionary 
 
+To clone this repo, first log into git using:
+```bash
+git config --global user.name 'example'
+```
+and
+```bash
+git config --global user.email 'example@example.com'
+```
+
+then clone this repo using the command:
+```bash
+git clone https://github.com/hcallachor/ChIP-Seq_Project
+```
 
 Example to run:
 ```bash
