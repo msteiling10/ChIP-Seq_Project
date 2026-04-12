@@ -6,7 +6,7 @@ You need to add your samples to the "YourSamplesHere.yaml"
 First: open the YourSamplesHere.yaml
 Next: add the SRAs you plan to use, there is a formatting example inside the YourSamplesHere.yaml
 This yaml connects to the sample download code to begin downloading the data you would like to use. 
-You should not need to make any edits to the SampleDownloadV2.py code itself, expect for adding the reference genome if
+You should not need to make any edits to the SampleDownloadV2.py code itself, except for adding the reference genome if
 you plan to work with something other than Plasmodium falciparum
 
 SampleDownload.py:
