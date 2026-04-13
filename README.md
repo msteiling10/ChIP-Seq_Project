@@ -46,7 +46,7 @@ Example to run:
 python ./SampleDownloadV2.py
 ```
 To run the Snakefile in background with a log file outputted
-Must run with the conda Macs3 environment activated
+Must run with the conda Macs3 environment activated (if conda has not yet been installed, see directions at the end)
 ```bash
 conda activate macs3_env
 ```
