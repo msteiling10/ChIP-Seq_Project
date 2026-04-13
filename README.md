@@ -103,6 +103,7 @@ Install bedToBigBed:
 ```bash
 wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedToBigBed
 ```
+After a bigBed file is created, it needs to be hosted on a web server in order to be compatible with the UCSC Genome Browser. A convenient option is to upload the bigBed file to GitHub, then copy the raw file URL and paste it into the custom tracks function found under the "My Data" tab of the genome browser website.
 
 Create and activate conda environment:
 ```bash
