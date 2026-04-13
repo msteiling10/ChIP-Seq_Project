@@ -18,7 +18,9 @@ git clone https://github.com/hcallachor/ChIP-Seq_Project
 To Begin:
 You need to add your samples to the "YourSamplesHere.yaml"
 First: open the YourSamplesHere.yaml
+
 Next: add the SRAs you plan to use, there is a formatting example inside the YourSamplesHere.yaml
+
 This yaml connects to the sample download code to begin downloading the data you would like to use. 
 You should not need to make any edits to the SampleDownloadV2.py code itself, except for adding the reference genome if
 you plan to work with something other than Plasmodium falciparum
@@ -31,11 +33,15 @@ pip install PyYAML
 ```
 
 SampleDownload.py:
-This Script is made to download the initial data to run through the pipeline and create the config file needed for the pipeline.
+This Script is made to download the initial data to run through the pipeline and create the config file needed for the pipeline. 
+
 It will create a directory to store samples called 
 "initial_data"
+
 The function will use the operating system to check for the directory. 
+
 Subproccess allows for the running of commandline tool from within Python. 
+
 To adapt the Sample Download code to other samples, the list at line 19 can be changed to other SRR/SRA numbers
 Please check that SampleDownload.py is in your current working directory before using ./
 Otherwise list full path
