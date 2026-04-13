@@ -245,11 +245,11 @@ rule bed_to_bigbed_pe:
         mkdir -p bigbed/pe
         # Sort and cap scores at 1000 for UCSC compatibility
         sort -k1,1 -k2,2n {input.peaks} | \
-        awk 'BEGIN{{OFS="\\t"}} {{if($5>1000) $5=1000; print}}' > {input.peaks}.sorted
+        awk 'BEGIN{{OFS="\\t"}} {{if($5>1000) $5=1000; print}}' > {sample}sorted.narrowPeak
         
         bedToBigBed -type=bed6+4 -as=bigNarrowPeak.as -tab {input.peaks}.sorted {input.sizes} {output.bb}
         
-        rm {input.peaks}.sorted
+        rm {sample}sorted.narrowPeak
         """
 
 #convert single end BED files to bigBed format
@@ -261,7 +261,7 @@ rule bed_to_bigbed_se:
         bb = "bigbed/se/{sample}.bb"
     shell:
         """
-        sort -k1,1 -k2,2n {input.peaks} > {input.peaks}.sorted | bedToBigBed -type=bed6+4 -as=bigNarrowPeak.as -tab {input.peaks}.sorted {input.sizes} {output.bb}
+        sort -k1,1 -k2,2n {input.peaks} > {sample}sorted.narrowPeak | bedToBigBed -type=bed6+4 -as=bigNarrowPeak.as -tab {input.peaks}.sorted {input.sizes} {output.bb}
         """
 
 #cleanup rule to remove files and run snakemake again
