@@ -43,7 +43,7 @@ Additionally, if you need to change the reference genome you wish to use, this i
 
 Example to run:
 ```bash
-python ./SampleDownloadV2.py
+python ./SampleDownload.py
 ```
 To run the Snakefile in background with a log file outputted
 Must run with the conda Macs3 environment activated (if conda has not yet been installed, see directions at the end)
