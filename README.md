@@ -116,7 +116,7 @@ After a bigBed file is created, it needs to be hosted on a web server in order t
 
 ---
 
-### Create environment and intsall macs3
+### Create environment and install macs3
 
 ```bash
 conda create -n macs3_env python=3.9
@@ -126,6 +126,22 @@ conda install -c bioconda -c conda-forge macs3
 
 ---
 
+### Create a Python Environment for running this pipeline
+
+```bash
+conda create -n my_environment python=3.9 -y
+conda activate my_environment
+```
+
+---
+
+### Install PyYAML
+
+```bash
+conda install -c conda-forge pyyaml
+```
+
+---
 
 ## To Begin Using the Pipeline
 
@@ -156,16 +172,8 @@ This dataset is very small and should run in ~2 minutes.
 
 ---
 
-### 2. Install Python dependency
 
-To install the YAML functionality, use the following command:
-```bash
-pip install PyYAML
-```
-
----
-
-### 3. Download sample data
+### 2. Download sample data
 Run the download script:
 
 ```bash
