@@ -1,5 +1,4 @@
 #overlay the BED files containing our BED output onto the BED files containing the paper-provided BED output to see where they intersect with pybedtools jaccard
-#I am working on this so this doesnt work yet
 rule pybedtools_jaccard:
     input:
         provided_BED = "provided_BED/{sample}.bed",
