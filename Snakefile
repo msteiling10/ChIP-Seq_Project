@@ -218,7 +218,7 @@ rule macs3_pe:
         macs3 callpeak -t {input.bam} -f BAM -g 2e7 -q 0.001 --nomodel --shift 0 --extsize 200 -n {wildcards.sample} --outdir macs3_peaks/pe
         """
 
-#create the chromosome length file to be used in bedtobigbed
+#create the chromosome length file to be used in bigwig file creation
 rule chrom_sizes:
     input:
         genome="ref/P_falciparum3D7.fa"
@@ -229,6 +229,7 @@ rule chrom_sizes:
         samtools faidx {input.genome}
         cut -f1,2 {input.genome}.fai > {output}
         """
+
 #convert macs3 narrowpeak output into bedgraph files, to be converted into bigwig files
 rule bed_graph_pe:
     input:
@@ -251,6 +252,30 @@ rule bed_graph_se:
         """ 
         mkdir -p bedgraphs/se
         awk '{{print $1"\t"$2"\t"$3"\t"$7}}' {input} | sort -k1,1 -k2,2n > {sample}.bedGraph
+        """
+
+rule bigwig_pe:
+    input:
+        "chromsizes.genome",
+        "bedgraphs/pe/{sample}.bedGraph"
+    output:
+        bigwig_files/pe/{sample}.bw
+    shell:
+        """
+        mkdir -p bigwig_files/pe
+        bedGraphToBigWig {sample}.bedGraph chromsizes.genome {sample}.bw
+        """
+
+rule bigwig_se:
+    input:
+        "chromsizes.genome",
+        "bedgraphs/se/{sample}.bedGraph"
+    output:
+        bigwig_files/se/{sample}.bw
+    shell:
+        """
+        mkdir -p bigwig_files/se
+        bedGraphToBigWig {sample}.bedGraph chromsizes.genome {sample}.bw
         """
 
 #cleanup rule to remove files and run snakemake again
