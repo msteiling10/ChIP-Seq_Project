@@ -13,8 +13,8 @@ reference_genome = config["Reference Genome"]
 
 rule all:
     input:   
-        expand("bigbed/pe/{sample}.bb", sample=paired_samples),
-        expand("bigbed/se/{sample}.bb", sample=single_samples)
+        expand("bigwig_files/pe/{sample}.bw", sample=paired_samples),
+        expand("bigwig_files/se/{sample}.bw", sample=single_samples)
         
 
 #get paired end fastq files from the sra accessions  
@@ -289,6 +289,6 @@ rule cleanup:
         rm -rf trimmed 
         rm -rf mapped_reads 
         rm -rf macs3_peaks
-        rm -rf bigbed
+        rm -rf bigwig_files
         rm -rf .snakemake
         """
