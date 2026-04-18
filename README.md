@@ -105,15 +105,6 @@ https://github.com/broadinstitute/picard/releases/download/3.4.0/picard.jar
 
 ---
 
-### bedToBigBed
-
-```bash
-wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedToBigBed
-```
-After a bigBed file is created, it needs to be hosted on a web server in order to be compatible with the UCSC Genome Browser. A convenient option is to upload the bigBed file to GitHub, then copy the raw file URL and paste it into the custom tracks function found under the "My Data" tab of the genome browser website.
-
----
-
 ### Create environment and install macs3
 
 ```bash
@@ -121,6 +112,15 @@ conda create -n macs3_env python=3.9
 conda activate macs3_env
 conda install -c bioconda -c conda-forge macs3
 ```
+
+---
+
+### bedGraphToBigWig
+
+```bash
+conda install bioconda::ucsc-bedgraphtobigwig
+```
+After macs3 is run files need to be converted into bedGraph format and then bigwig format in order to be run through the UCSC genome browser. These files need to be hosted on a web server in order to be compatible with the UCSC Genome Browser. A convenient option is to upload the bigwig file to GitHub, then copy the raw file URL and paste it into the custom tracks function found under the "My Data" tab of the genome browser website.
 
 ---
 
@@ -229,7 +229,6 @@ snakemake --list
 ```
 
 ---
-
 
 ## Notes
 
