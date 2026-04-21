@@ -223,6 +223,22 @@ snakemake --list
 
 ---
 
+## Viewing your results
+- bigWig files can be viewed on the UCSC Genome Browser: https://genome.ucsc.edu/
+- bigWig files must be hosted on a web-accessible URL (such as on GitHub)
+
+### Pushing to GitHub
+- First, create a repository on your GitHub account, and clone the repository following the instructions listed at the top of this README.
+- Move the bigWig output files to your own repository, and push them to GitHub using git add, commit, and push.
+
+### Using the Genome Browser
+- Open your GitHub repository to the bigWig file, and right-click the "raw" button in the top right, in order to copy the raw data URL.
+- Paste the URL in the "Custom Tracks" section found under "My Data", submit and select "Go To First Annotation".
+- Viewing settings must be manually configured by selecting the gear icon on the left side of your sample track.
+- Simply change the "dense" setting to "full" and submit changes, then the tracks will show peak data.
+
+---
+
 ## Notes
 
 - Java is required for Trimmomatic and Picard
