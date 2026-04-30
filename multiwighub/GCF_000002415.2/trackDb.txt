@@ -20,6 +20,7 @@ longLabel pvivax1
 parent all_pvivax
 type bigWig
 color 180,102,255
+htmlUrl="https://github.com/hcallachor/ChIP-Seq_Project/raw/refs/heads/main/multiwighub/description.html"
 
 track pvivax2
 bigDataUrl https://github.com/hcallachor/ChIP-Seq_Project/raw/refs/heads/main/bigwig_files/se/SRR5298162.bw
@@ -28,6 +29,7 @@ longLabel pvivax2
 type bigWig
 parent all_pvivax
 color 136,102,255
+htmlUrl="https://github.com/hcallachor/ChIP-Seq_Project/raw/refs/heads/main/multiwighub/description.html"
 
 track pvivax3
 bigDataUrl https://github.com/hcallachor/ChIP-Seq_Project/raw/refs/heads/main/bigwig_files/se/SRR5298170.bw
@@ -36,3 +38,4 @@ longLabel pvivax3
 type bigWig
 parent all_pvivax
 color 136,102,255
+htmlUrl="https://github.com/hcallachor/ChIP-Seq_Project/raw/refs/heads/main/multiwighub/description.html"
